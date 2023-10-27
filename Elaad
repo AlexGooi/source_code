@@ -11,76 +11,85 @@ df2 = pd.read_csv(file_path2, delimiter=';', decimal=',') #europeans
 
 ##Average Daily Arrival and Departure Distribution##
 
+
 # Convert the columns to datetime
 df1['UTCTransactionStart'] = pd.to_datetime(df1['UTCTransactionStart'], format='%d/%m/%Y %H:%M')
 df1['UTCTransactionStop'] = pd.to_datetime(df1['UTCTransactionStop'], format='%d/%m/%Y %H:%M')
 
-# Extract the hours
+# Extract the hours and days
 df1['ArrivalHour'] = df1['UTCTransactionStart'].dt.hour
 df1['DepartureHour'] = df1['UTCTransactionStop'].dt.hour
+df1['DayOfWeek'] = df1['UTCTransactionStart'].dt.dayofweek
 
-# Count the number of arrivals and departures for each hour
-arrival_counts = df1['ArrivalHour'].value_counts().sort_index()
-departure_counts = df1['DepartureHour'].value_counts().sort_index()
+# Segregate df1 into weekdays and weekends
+df_weekdays = df1[df1['DayOfWeek'].between(0, 4)]
+df_weekends = df1[df1['DayOfWeek'].between(5, 6)]
 
-# Plot the average arrival distribution
-plt.figure(figsize=(10, 5))
-arrival_counts.plot(kind='bar')
-plt.title('Average Arrival Distribution over 24 Hours')
-plt.xlabel('Hour of Day')
-plt.ylabel('Number of Arrivals')
-plt.xticks(range(24))
-plt.tight_layout()
+def plot_distribution(arrival_df, departure_df, title_suffix):
+    # Combine arrival and departure data into a single dataframe
+    combined_df = pd.DataFrame({
+        'Arrivals': arrival_df['ArrivalHour'].value_counts().sort_index(),
+        'Departures': departure_df['DepartureHour'].value_counts().sort_index()
+    })
+    
+    # Plot the grouped bar chart
+    combined_df.plot(kind='bar', figsize=(10, 5))
+    plt.title(f'Combined Arrival and Departure Distribution over 24 Hours ({title_suffix})')
+    plt.xlabel('Hour of Day')
+    plt.ylabel('Count')
+    plt.xticks(range(24))
+    plt.tight_layout()
 
-# Plot the average departure distribution
-plt.figure(figsize=(10, 5))
-departure_counts.plot(kind='bar')
-plt.title('Average Departure Distribution over 24 Hours')
-plt.xlabel('Hour of Day')
-plt.ylabel('Number of Departures')
-plt.xticks(range(24))
-plt.tight_layout()
+# Separate arrival and departure dataframes for weekdays and weekends
+arrival_weekdays = df_weekdays[['ArrivalHour']]
+departure_weekdays = df_weekdays[['DepartureHour']]
+arrival_weekends = df_weekends[['ArrivalHour']]
+departure_weekends = df_weekends[['DepartureHour']]
 
-## Boxplots for insights on other columns ##
+# Plot distributions for weekdays (arrival and departure combined) and weekends (arrival and departure combined)
+plot_distribution(arrival_weekdays, departure_weekdays, 'Weekdays')
+plot_distribution(arrival_weekends, departure_weekends, 'Weekends')
 
-# Boxplot for ConnectedTime against ArrivalHour
-plt.figure(figsize=(10, 6))
-sns.boxplot(x='ArrivalHour', y='ConnectedTime', data=df1)
-plt.title('Boxplot of ConnectedTime by Hour of the Day')
+# ## Boxplots for insights on other columns ##
 
-# Boxplot for ChargeTime against ArrivalHour
-plt.figure(figsize=(10, 6))
-sns.boxplot(x='ArrivalHour', y='ChargeTime', data=df1)
-plt.title('Boxplot of ChargeTime by Hour of the Day')
+# # Boxplot for ConnectedTime against ArrivalHour
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(x='ArrivalHour', y='ConnectedTime', data=df1)
+# plt.title('Boxplot of ConnectedTime by Hour of the Day')
 
-# Boxplot for TotalEnergy against ArrivalHour
-plt.figure(figsize=(10, 6))
-sns.boxplot(x='ArrivalHour', y='TotalEnergy', data=df1)
-plt.title('Boxplot of TotalEnergy by Hour of the Day')
+# # Boxplot for ChargeTime against ArrivalHour
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(x='ArrivalHour', y='ChargeTime', data=df1)
+# plt.title('Boxplot of ChargeTime by Hour of the Day')
 
-# Boxplot for MaxPower against ArrivalHour
-plt.figure(figsize=(10, 6))
-sns.boxplot(x='ArrivalHour', y='MaxPower', data=df1)
-plt.title('Boxplot of MaxPower by Hour of the Day')
+# # Boxplot for TotalEnergy against ArrivalHour
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(x='ArrivalHour', y='TotalEnergy', data=df1)
+# plt.title('Boxplot of TotalEnergy by Hour of the Day')
+
+# # Boxplot for MaxPower against ArrivalHour
+# plt.figure(figsize=(10, 6))
+# sns.boxplot(x='ArrivalHour', y='MaxPower', data=df1)
+# plt.title('Boxplot of MaxPower by Hour of the Day')
 
 
 plt.show()
 
-#Prints and Excel exports
+# #Prints and Excel exports
 
-#print(df1.dtypes)
-#print(df1.head()) # Print first 5 rows
-#df1.head().to_excel('/mnt/c/Users/s139501/Exceloutput/df1head.xlsx', index=False, engine='openpyxl') #export to excel for table in report
+# #print(df1.dtypes)
+# #print(df1.head()) # Print first 5 rows
+# #df1.head().to_excel('/mnt/c/Users/s139501/Exceloutput/df1head.xlsx', index=False, engine='openpyxl') #export to excel for table in report
 
-#print(df2.dtypes)
-#print(df2.head()) # Print first 5 rows
-#df2.head().to_excel('/mnt/c/Users/s139501/Exceloutput/df2head.xlsx', index=False, engine='openpyxl') #export to excel for table in report
+# #print(df2.dtypes)
+# #print(df2.head()) # Print first 5 rows
+# #df2.head().to_excel('/mnt/c/Users/s139501/Exceloutput/df2head.xlsx', index=False, engine='openpyxl') #export to excel for table in report
 
-#print(df1.describe())
-#describe_df1 = df1.describe()
-#describe_df1.to_excel('/mnt/c/Users/s139501/Exceloutput/df1describe.xlsx', index=True, engine='openpyxl')
+# #print(df1.describe())
+# #describe_df1 = df1.describe()
+# #describe_df1.to_excel('/mnt/c/Users/s139501/Exceloutput/df1describe.xlsx', index=True, engine='openpyxl')
 
 
-#print(df2.describe())
-#describe_df2 = df2.describe()
-#describe_df2.to_excel('/mnt/c/Users/s139501/Exceloutput/df2describe.xlsx', index=True, engine='openpyxl')
+# #print(df2.describe())
+# #describe_df2 = df2.describe()
+# #describe_df2.to_excel('/mnt/c/Users/s139501/Exceloutput/df2describe.xlsx', index=True, engine='openpyxl')
