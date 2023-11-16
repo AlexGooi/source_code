@@ -7600,11 +7600,12 @@ In case it is the station is activated.</li>
 <span class="c1"># https://www.salabim.org/manual/Modelling.html#a-bank-example</span>
 
 <span class="kn">import</span> <span class="nn">salabim</span> <span class="k">as</span> <span class="nn">sim</span>
-
+<span class="n">sim</span><span class="o">.</span><span class="n">captured_stdout_as_file</span><span class="p">(</span><span class="s2">"jads_MMc.txt"</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7615,6 +7616,7 @@ In case it is the station is activated.</li>
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">waitingline</span><span class="p">)</span>
@@ -7628,6 +7630,7 @@ In case it is the station is activated.</li>
 <span class="k">class</span> <span class="nc">ChargingStation</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7683,12 +7686,12 @@ In case it is the station is activated.</li>
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33204        26454         6750    
-mean                  4.898        6.148
-std.deviation         6.122        6.274
+entries           33523        27145         6378    
+mean                  5.149        6.359
+std.deviation         6.356        6.496
 
 minimum               0            0.000
-maximum              46.384       46.384
+maximum              48.151       48.151
 </pre>
 </div>
 </div>
@@ -7734,6 +7737,7 @@ maximum              46.384       46.384
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7748,6 +7752,7 @@ maximum              46.384       46.384
 <span class="k">class</span> <span class="nc">ChargingStation</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7800,12 +7805,12 @@ maximum              46.384       46.384
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33290        26371         6919    
-mean                  4.591        5.795
-std.deviation         5.378        5.435
+entries           33180        26470         6710    
+mean                  4.345        5.447
+std.deviation         5.062        5.111
 
 minimum               0            0.000
-maximum              43.451       43.451
+maximum              42.030       42.030
 </pre>
 </div>
 </div>
@@ -7848,6 +7853,7 @@ maximum              43.451       43.451
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7858,6 +7864,7 @@ maximum              43.451       43.451
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">chargingstations</span><span class="p">)</span>
@@ -7905,15 +7912,15 @@ maximum              43.451       43.451
 <pre>Statistics of Length of stay in requesters of Charging Stations at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33194        33194            0    
-mean                  4.600        4.600
-std.deviation         5.416        5.416
+entries           33396        33396            0    
+mean                  4.452        4.452
+std.deviation         5.210        5.210
 
 minimum               0            0    
-median                2.772        2.772
-90% percentile       12.071       12.071
-95% percentile       15.753       15.753
-maximum              37.941       37.941
+median                2.745        2.745
+90% percentile       11.525       11.525
+95% percentile       15.265       15.265
+maximum              37.598       37.598
 </pre>
 </div>
 </div>
@@ -7960,6 +7967,7 @@ maximum              37.941       37.941
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -7970,6 +7978,7 @@ maximum              37.941       37.941
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">waitingline</span><span class="p">)</span>
@@ -7980,6 +7989,7 @@ maximum              37.941       37.941
 <span class="k">class</span> <span class="nc">ChargingStation</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8041,26 +8051,26 @@ maximum              37.941       37.941
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33227        26338         6889    
-mean                  4.508        5.687
-std.deviation         5.485        5.590
+entries           33569        27086         6483    
+mean                  5.414        6.710
+std.deviation         6.780        6.949
 
 minimum               0            0.000
-maximum              43.833       43.833
+maximum              55.545       55.545
 
 
 Statistics of Length of stay in waiters of worktodo at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries            6889         6889            0    
-mean                  1.512        1.512
-std.deviation         1.521        1.521
+entries            6483         6483            0    
+mean                  1.482        1.482
+std.deviation         1.455        1.455
 
 minimum               0            0    
-median                1.027        1.027
-90% percentile        3.459        3.459
-95% percentile        4.613        4.613
-maximum              12.899       12.899
+median                1.023        1.023
+90% percentile        3.416        3.416
+95% percentile        4.399        4.399
+maximum              13.650       13.650
 </pre>
 </div>
 </div>
@@ -8114,6 +8124,7 @@ It is very important to realize that this mechanism can have significant impact 
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8124,6 +8135,7 @@ It is very important to realize that this mechanism can have significant impact 
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">waitingline</span><span class="p">)</span>
@@ -8133,6 +8145,7 @@ It is very important to realize that this mechanism can have significant impact 
 <span class="k">class</span> <span class="nc">ChargingStation</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8194,7 +8207,7 @@ It is very important to realize that this mechanism can have significant impact 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average waiting time of a car before being charged: 	 4.6967783680629465  minutes.
+ Average waiting time of a car before being charged: 	 4.696497340771069  minutes.
 </pre>
 </div>
 </div>
@@ -8251,6 +8264,7 @@ It is very important to realize that this mechanism can have significant impact 
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8261,7 +8275,8 @@ It is very important to realize that this mechanism can have significant impact 
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">chargingstations</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">srv_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
@@ -8322,8 +8337,8 @@ It is very important to realize that this mechanism can have significant impact 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Probability that the charging station is free: 	 0.16777634030389887 
- Average number of customers in the queue: 		 4.66787133081194
+ Probability that the charging station is free: 	 0.15802279427487198 
+ Average number of customers in the queue: 		 4.59420395354831
 </pre>
 </div>
 </div>
@@ -8347,12 +8362,32 @@ It is very important to realize that this mechanism can have significant impact 
 <p>$\lambda = 12/hour$, $\mu = 30/hour$</p>
 <p>Average inter arrival time = $\cfrac{1}{\lambda} = 5 minutes = \cfrac{1}{12} = \lambda = 12/hour$
 Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/hour$</p>
-<hr/>
-<pre><code> </code></pre>
-<p>Average queue length ($L_q$ )  $= \cfrac{12^2}{30(30-12)} = \cfrac{4}{15}$</p>
-<p>Average number of customers, ($L_s$)  $ = \cfrac{12}{30-12} = \cfrac{2}{3}$	
-Average time spent at the charging station ($W_s$)  = $\cfrac{1}{\mu-\lambda} = \cfrac{1}{30-12} = $ 3.33 minutes
-Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-12)} = $ 1.33 minutes</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Performance Indicator</th>
+<th style="text-align:left">Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Average queue length ($L_q$ )</td>
+<td style="text-align:left">$ = \cfrac{12^2}{30(30-12)} = \cfrac{4}{15}$</td>
+</tr>
+<tr>
+<td style="text-align:left">Average number of customers, ($L_s$)</td>
+<td style="text-align:left">$ = \cfrac{12}{30-12} = \cfrac{2}{3}$</td>
+</tr>
+<tr>
+<td style="text-align:left">Average time spent at the charging station ($W_s$)</td>
+<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{30-12} = $ 3.33 minutes</td>
+</tr>
+<tr>
+<td style="text-align:left">Average waiting time of a car before being charged ($W_q$)</td>
+<td style="text-align:left">$ = \cfrac{12}{30(30-12)} = $ 1.33 minutes</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -8373,6 +8408,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8383,6 +8419,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">chargingstations</span><span class="p">)</span>
@@ -8452,10 +8489,10 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average queue length: 					 0.23928788515040272 
- Average number of customers: 				 0.6349461881933984 
- Average time spent at the charging station: 		 3.2018477405846446 
- Average waiting time of a car before being charged: 	 1.2018477405846446
+ Average queue length: 					 0.2809401954398364 
+ Average number of customers: 				 0.6848836603740738 
+ Average time spent at the charging station: 		 3.413180057544449 
+ Average waiting time of a car before being charged: 	 1.4131800575444486
 </pre>
 </div>
 </div>
@@ -8478,10 +8515,32 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 </ol>
 <h3 id="Solution.">Solution.<a class="anchor-link" href="#Solution.">¶</a></h3><p>Given</p>
 <p>$\lambda = 15/hour$, $\mu = 20/hour$</p>
-<p>Average queue length ($L_q$ )  $= \cfrac{15^2}{20(20-15)} = $ 2.25 cars</p>
-<p>Average number of customers, ($L_s$)  $ = \cfrac{15}{20-15} = $ 3 cars</p>
-<p>Average waiting time of a car before being charged ($W_q$) = $\cfrac{15}{20(20-15)} = $ 0.15 hours = 9 minutes</p>
-<p>Average time spent at the charging station ($W_s$)  = $\cfrac{1}{\mu-\lambda} = \cfrac{1}{20-15} = $ 12 minutes</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Performance Indicator</th>
+<th style="text-align:left">Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Average queue length ($L_q$ )</td>
+<td style="text-align:left">$ = \cfrac{15^2}{20(20-15)} = $ 2.25 cars</td>
+</tr>
+<tr>
+<td style="text-align:left">Average number of customers, ($L_s$)</td>
+<td style="text-align:left">$ = \cfrac{15}{20-15} = $ 3 cars</td>
+</tr>
+<tr>
+<td style="text-align:left">Average time spent at the charging station ($W_s$)</td>
+<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{20-15} = $ 12 minutes</td>
+</tr>
+<tr>
+<td style="text-align:left">Average waiting time of a car before being charged ($W_q$)</td>
+<td style="text-align:left">$ = \cfrac{15}{20(20-15)} = $ 0.15 hours = 9 minutes</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -8502,6 +8561,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8512,6 +8572,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">chargingstations</span><span class="p">)</span>
@@ -8581,10 +8642,10 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average queue length: 					 2.241900269681301 
- Average number of customers: 				 3.002513297840692 
- Average waiting time of a car before being charged: 	 8.873575445806063 
- Average time spent at the charging station: 		 11.873575445806063
+ Average queue length: 					 2.508049075543267 
+ Average number of customers: 				 3.2568457359090375 
+ Average waiting time of a car before being charged: 	 9.980651062796806 
+ Average time spent at the charging station: 		 12.980651062796806
 </pre>
 </div>
 </div>
@@ -8607,13 +8668,36 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 </ol>
 <h3 id="Solution.">Solution.<a class="anchor-link" href="#Solution.">¶</a></h3><p>Given</p>
 <p>$\lambda = 10/hour$, $\mu = 12/hour$</p>
-<ol>
-<li>Probability of zero unit in the queue ($P_o$) $= 1 - \cfrac{\lambda}{\mu} = 1 - \cfrac{10}{12} = \cfrac{1}{6}$</li>
-<li>Average number of units in the system ($L_s$) $= \cfrac{\lambda}{\mu-\lambda} = \cfrac{10}{12-10} = $ 5 cars</li>
-<li>Average waiting time of an arrival in the system ($W_s$) $= \cfrac{1}{\mu-\lambda} = \cfrac{1}{12-10} =$ 30 minutes</li>
-<li>Average queue length ($L_q$ )  $= \cfrac{\lambda^2}{\mu(\mu-\lambda)} = \cfrac{10^2}{12(12-10)} = \cfrac{25}{6}$ cars</li>
-<li>Average waiting time of an arrival ($W_q$)  $= \cfrac{\lambda}{\mu(\mu-\lambda)} = \cfrac{10}{12(12-10)} = $ 25 minutes</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Performance Indicator</th>
+<th style="text-align:left">Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Probability of zero unit in the queue ($P_o$)</td>
+<td style="text-align:left">$ = 1 - \cfrac{\lambda}{\mu} = 1 - \cfrac{10}{12} = \cfrac{1}{6}$</td>
+</tr>
+<tr>
+<td style="text-align:left">Average number of units in the system ($L_s$)</td>
+<td style="text-align:left">$ = \cfrac{\lambda}{\mu-\lambda} = \cfrac{10}{12-10} = $ 5 cars</td>
+</tr>
+<tr>
+<td style="text-align:left">Average waiting time of an arrival in the system ($W_s$)</td>
+<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{12-10} =$ 30 minutes</td>
+</tr>
+<tr>
+<td style="text-align:left">Average queue length ($L_q$ )</td>
+<td style="text-align:left">$ = \cfrac{\lambda^2}{\mu(\mu-\lambda)} = \cfrac{10^2}{12(12-10)} = \cfrac{25}{6}$ cars</td>
+</tr>
+<tr>
+<td style="text-align:left">Average waiting time of an arrival ($W_q$)</td>
+<td style="text-align:left">$ = \cfrac{\lambda}{\mu(\mu-\lambda)} = \cfrac{10}{12(12-10)} = $ 25 minutes</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -8634,6 +8718,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -8644,6 +8729,7 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">monitor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>        
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">chargingstations</span><span class="p">)</span>
@@ -8718,11 +8804,11 @@ Average waiting time of a car before being charged ($W_q$) = $\cfrac{12}{30(30-1
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Probability that the charging station is free: 	 0.15527794650906712 
- Average number of customers: 				 4.766931231775423 
- Average time spent at the charging station: 		 28.497538810714634 
- Average queue length: 					 3.9222091782844903 
- Average waiting time of a car before being charged: 	 23.497538810714634
+ Probability that the charging station is free: 	 0.16886005858523512 
+ Average number of customers: 				 4.481940030373935 
+ Average time spent at the charging station: 		 26.982177799609552 
+ Average queue length: 					 3.6508000889591705 
+ Average waiting time of a car before being charged: 	 21.982177799609552
 </pre>
 </div>
 </div>
