@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>jads_MMc</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>jads_MM1_5_models</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7549,7 +7549,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Example-1">Example 1<a class="anchor-link" href="#Example-1">¶</a></h3><p>Cars arrive at a single charging station according to a Poisson input process with a mean rate of 40 per hour. The time required to charge a car has an exponential distribution with a mean of 50 per hour. Assume that the cars are charged by a single charging station, find the average waiting time of a car.</p>
+<h3 id="Toy-Example">Toy Example<a class="anchor-link" href="#Toy-Example">¶</a></h3><p>Cars arrive at a single charging station according to a Poisson input process with a mean rate of 40 per hour. The time required to charge a car has an exponential distribution with a mean of 50 per hour. Assume that the cars are charged by a single charging station, find the average waiting time of a car.</p>
 <h4 id="Solution">Solution<a class="anchor-link" href="#Solution">¶</a></h4><p>Given:</p>
 <p>$\lambda = 40/hour$, $\mu = 50/hour$</p>
 <p>Average waiting time of a car before receiving service ($W_q$) = $\cfrac{40}{50(50-40)}$ = 4.8 minutes</p>
@@ -7563,7 +7563,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Simulation-of-Example-1">Simulation of Example 1<a class="anchor-link" href="#Simulation-of-Example-1">¶</a></h4>
+<h4 id="Simulation-of-Toy-Example">Simulation of Toy Example<a class="anchor-link" href="#Simulation-of-Toy-Example">¶</a></h4>
 </div>
 </div>
 </div>
@@ -7600,7 +7600,6 @@ In case it is the station is activated.</li>
 <span class="c1"># https://www.salabim.org/manual/Modelling.html#a-bank-example</span>
 
 <span class="kn">import</span> <span class="nn">salabim</span> <span class="k">as</span> <span class="nn">sim</span>
-<span class="n">sim</span><span class="o">.</span><span class="n">captured_stdout_as_file</span><span class="p">(</span><span class="s2">"jads_MMc.txt"</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">CarGenerator</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -7609,7 +7608,7 @@ In case it is the station is activated.</li>
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -7686,12 +7685,12 @@ In case it is the station is activated.</li>
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33523        27145         6378    
-mean                  5.149        6.359
-std.deviation         6.356        6.496
+entries           33219        26721         6498    
+mean                  4.727        5.876
+std.deviation         5.828        5.956
 
 minimum               0            0.000
-maximum              48.151       48.151
+maximum              49.382       49.382
 </pre>
 </div>
 </div>
@@ -7741,9 +7740,8 @@ maximum              48.151       48.151
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">waitingline</span><span class="p">)</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span><span class="n">waitingline</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
-
 
 <span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Component</span><span class="p">):</span>
     <span class="o">...</span>
@@ -7805,12 +7803,12 @@ maximum              48.151       48.151
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33180        26470         6710    
-mean                  4.345        5.447
-std.deviation         5.062        5.111
+entries           33213        26444         6769    
+mean                  4.743        5.957
+std.deviation         5.882        6.019
 
 minimum               0            0.000
-maximum              42.030       42.030
+maximum              44.718       44.718
 </pre>
 </div>
 </div>
@@ -7857,7 +7855,7 @@ maximum              42.030       42.030
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -7912,15 +7910,15 @@ maximum              42.030       42.030
 <pre>Statistics of Length of stay in requesters of Charging Stations at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33396        33396            0    
-mean                  4.452        4.452
-std.deviation         5.210        5.210
+entries           33321        33321            0    
+mean                  5.106        5.106
+std.deviation         6.093        6.093
 
 minimum               0            0    
-median                2.745        2.745
-90% percentile       11.525       11.525
-95% percentile       15.265       15.265
-maximum              37.598       37.598
+median                2.981        2.981
+90% percentile       13.505       13.505
+95% percentile       17.845       17.845
+maximum              41.628       41.628
 </pre>
 </div>
 </div>
@@ -7971,7 +7969,7 @@ maximum              37.598       37.598
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8051,26 +8049,26 @@ maximum              37.598       37.598
 <pre>Statistics of Length of stay in Waiting Cars at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries           33569        27086         6483    
-mean                  5.414        6.710
-std.deviation         6.780        6.949
+entries           33414        26651         6763    
+mean                  4.427        5.551
+std.deviation         5.308        5.393
 
 minimum               0            0.000
-maximum              55.545       55.545
+maximum              44.521       44.521
 
 
 Statistics of Length of stay in waiters of worktodo at     50000    
                         all    excl.zero         zero
 -------------- ------------ ------------ ------------
-entries            6483         6483            0    
-mean                  1.482        1.482
-std.deviation         1.455        1.455
+entries            6763         6763            0    
+mean                  1.501        1.501
+std.deviation         1.529        1.529
 
 minimum               0            0    
-median                1.023        1.023
-90% percentile        3.416        3.416
-95% percentile        4.399        4.399
-maximum              13.650       13.650
+median                1.034        1.034
+90% percentile        3.406        3.406
+95% percentile        4.490        4.490
+maximum              16.108       16.108
 </pre>
 </div>
 </div>
@@ -8128,7 +8126,7 @@ It is very important to realize that this mechanism can have significant impact 
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8207,32 +8205,9 @@ It is very important to realize that this mechanism can have significant impact 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average waiting time of a car before being charged: 	 4.696497340771069  minutes.
+ Average waiting time of a car before being charged: 	 4.3701020589879676  minutes.
 </pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Example-2">Example 2<a class="anchor-link" href="#Example-2">¶</a></h2><p>New Delhi Charging Hub has a single charging station. During the rush hours, customers arrive at the rate of 10 per hour. The average number of customers that can be served is 12 per hour. Find out the following:</p>
-<ol>
-<li>Probability that the ticket counter is free.</li>
-<li>Average number of customers in the queue.</li>
-</ol>
-<h3 id="Solution">Solution<a class="anchor-link" href="#Solution">¶</a></h3><p>Given</p>
-<p>$\lambda = 10/hour$, $\mu = 12/hour$</p>
-<ol>
-<li><p>Probability that the charging station is free ($P_o$) = $1 - \cfrac{\lambda}{\mu} = 1 - \cfrac{10}{12} = \cfrac{1}{6}$</p>
-</li>
-<li><p>Average number of customers in the queue ($L_q$ ) = $\cfrac{\lambda^2}{\mu(\mu-\lambda)} = \cfrac{10^2}{12(12-10)} = \cfrac{25}{6} = 4.16666$</p>
-</li>
-</ol>
 </div>
 </div>
 </div>
@@ -8268,7 +8243,7 @@ It is very important to realize that this mechanism can have significant impact 
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8337,57 +8312,10 @@ It is very important to realize that this mechanism can have significant impact 
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Probability that the charging station is free: 	 0.15802279427487198 
- Average number of customers in the queue: 		 4.59420395354831
+ Probability that the charging station is free: 	 0.18845997257673908 
+ Average number of customers in the queue: 		 3.602280355712456
 </pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Example-3">Example 3<a class="anchor-link" href="#Example-3">¶</a></h2><p>At Bharat charging station, cars arrive according to a Poisson process with an average time of 5 minutes between arrivals. The service time is exponentially distributed with mean time = 2 minutes. On the basis of this information, find out</p>
-<ol>
-<li>What would be the average queue length?</li>
-<li>What would be the average number of customers in the queuing system?</li>
-<li>What is the average time spent by a car in the petrol pump?</li>
-<li>What is the average waiting time of a car before receiving petrol?</li>
-</ol>
-<h3 id="Solution">Solution<a class="anchor-link" href="#Solution">¶</a></h3><p>Given</p>
-<p>$\lambda = 12/hour$, $\mu = 30/hour$</p>
-<p>Average inter arrival time = $\cfrac{1}{\lambda} = 5 minutes = \cfrac{1}{12} = \lambda = 12/hour$
-Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/hour$</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Performance Indicator</th>
-<th style="text-align:left">Formula</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Average queue length ($L_q$ )</td>
-<td style="text-align:left">$ = \cfrac{12^2}{30(30-12)} = \cfrac{4}{15}$</td>
-</tr>
-<tr>
-<td style="text-align:left">Average number of customers, ($L_s$)</td>
-<td style="text-align:left">$ = \cfrac{12}{30-12} = \cfrac{2}{3}$</td>
-</tr>
-<tr>
-<td style="text-align:left">Average time spent at the charging station ($W_s$)</td>
-<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{30-12} = $ 3.33 minutes</td>
-</tr>
-<tr>
-<td style="text-align:left">Average waiting time of a car before being charged ($W_q$)</td>
-<td style="text-align:left">$ = \cfrac{12}{30(30-12)} = $ 1.33 minutes</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
@@ -8412,7 +8340,7 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8489,58 +8417,12 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average queue length: 					 0.2809401954398364 
- Average number of customers: 				 0.6848836603740738 
- Average time spent at the charging station: 		 3.413180057544449 
- Average waiting time of a car before being charged: 	 1.4131800575444486
+ Average queue length: 					 0.2755783485039515 
+ Average number of customers: 				 0.6797661769299876 
+ Average time spent at the charging station: 		 3.353794205659027 
+ Average waiting time of a car before being charged: 	 1.3537942056590269
 </pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Example-4">Example 4<a class="anchor-link" href="#Example-4">¶</a></h2><p>Enexis is considering to operate a single charging station. Management estimates that customers will arrive at the rate of 15 per hour. The charging station can charge a car at the rate of one every 3 minutes.</p>
-<p>Assuming Poisson arrivals and exponential service find</p>
-<ol>
-<li>Average number in the waiting line.</li>
-<li>Average number in the system.</li>
-<li>Average waiting time in line.</li>
-<li>Average waiting time in the system.</li>
-</ol>
-<h3 id="Solution.">Solution.<a class="anchor-link" href="#Solution.">¶</a></h3><p>Given</p>
-<p>$\lambda = 15/hour$, $\mu = 20/hour$</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Performance Indicator</th>
-<th style="text-align:left">Formula</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Average queue length ($L_q$ )</td>
-<td style="text-align:left">$ = \cfrac{15^2}{20(20-15)} = $ 2.25 cars</td>
-</tr>
-<tr>
-<td style="text-align:left">Average number of customers, ($L_s$)</td>
-<td style="text-align:left">$ = \cfrac{15}{20-15} = $ 3 cars</td>
-</tr>
-<tr>
-<td style="text-align:left">Average time spent at the charging station ($W_s$)</td>
-<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{20-15} = $ 12 minutes</td>
-</tr>
-<tr>
-<td style="text-align:left">Average waiting time of a car before being charged ($W_q$)</td>
-<td style="text-align:left">$ = \cfrac{15}{20(20-15)} = $ 0.15 hours = 9 minutes</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
@@ -8565,7 +8447,7 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8642,62 +8524,12 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Average queue length: 					 2.508049075543267 
- Average number of customers: 				 3.2568457359090375 
- Average waiting time of a car before being charged: 	 9.980651062796806 
- Average time spent at the charging station: 		 12.980651062796806
+ Average queue length: 					 2.084205630607534 
+ Average number of customers: 				 2.8336699477993808 
+ Average waiting time of a car before being charged: 	 8.39390104956722 
+ Average time spent at the charging station: 		 11.39390104956722
 </pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Example-5">Example 5<a class="anchor-link" href="#Example-5">¶</a></h2><p>Chhabra Saree Emporium has a single charging station. During the rush hours, cars arrive at the rate of 10 per hour. The average number of customers that can be processed by the charging station is 12 per hour. On the basis of this information, find the following:</p>
-<ol>
-<li>Probability that the charging station is idle</li>
-<li>Average number of cars in the queuing system</li>
-<li>Average time a customer spends in the system</li>
-<li>Average number of customers in the queue</li>
-<li>Average time a customer spends in the queue</li>
-</ol>
-<h3 id="Solution.">Solution.<a class="anchor-link" href="#Solution.">¶</a></h3><p>Given</p>
-<p>$\lambda = 10/hour$, $\mu = 12/hour$</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Performance Indicator</th>
-<th style="text-align:left">Formula</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Probability of zero unit in the queue ($P_o$)</td>
-<td style="text-align:left">$ = 1 - \cfrac{\lambda}{\mu} = 1 - \cfrac{10}{12} = \cfrac{1}{6}$</td>
-</tr>
-<tr>
-<td style="text-align:left">Average number of units in the system ($L_s$)</td>
-<td style="text-align:left">$ = \cfrac{\lambda}{\mu-\lambda} = \cfrac{10}{12-10} = $ 5 cars</td>
-</tr>
-<tr>
-<td style="text-align:left">Average waiting time of an arrival in the system ($W_s$)</td>
-<td style="text-align:left">$ = \cfrac{1}{\mu-\lambda} = \cfrac{1}{12-10} =$ 30 minutes</td>
-</tr>
-<tr>
-<td style="text-align:left">Average queue length ($L_q$ )</td>
-<td style="text-align:left">$ = \cfrac{\lambda^2}{\mu(\mu-\lambda)} = \cfrac{10^2}{12(12-10)} = \cfrac{25}{6}$ cars</td>
-</tr>
-<tr>
-<td style="text-align:left">Average waiting time of an arrival ($W_q$)</td>
-<td style="text-align:left">$ = \cfrac{\lambda}{\mu(\mu-\lambda)} = \cfrac{10}{12(12-10)} = $ 25 minutes</td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 </div>
@@ -8722,7 +8554,7 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 
     <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">Car</span><span class="p">()</span>
+            <span class="n">Car</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Car"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="n">iat_distr</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
 
 
@@ -8804,11 +8636,11 @@ Average service time =	$\cfrac{1}{\mu} = 2 minutes = \cfrac{1}{30} = \mu = 30/ho
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
- Probability that the charging station is free: 	 0.16886005858523512 
- Average number of customers: 				 4.481940030373935 
- Average time spent at the charging station: 		 26.982177799609552 
- Average queue length: 					 3.6508000889591705 
- Average waiting time of a car before being charged: 	 21.982177799609552
+ Probability that the charging station is free: 	 0.17620480726155308 
+ Average number of customers: 				 4.880873933899824 
+ Average time spent at the charging station: 		 29.114828466246788 
+ Average queue length: 					 4.057078741161377 
+ Average waiting time of a car before being charged: 	 24.114828466246788
 </pre>
 </div>
 </div>
