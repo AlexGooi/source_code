@@ -56,7 +56,7 @@ class Prepare():
         time = 0
         first = False   
         #Loop until a day is finished
-        while time <self.total_time:                 
+        while time <self.total_time:              
             if spread_type == 1:     
                 #Create a new data object
                 Truck_Data = Truck(Battery= sim.Uniform(20, 80).sample(),Arrival_Time=time,total_time=0)  
@@ -65,6 +65,7 @@ class Prepare():
             elif spread_type == 3: 
                 arrival, service_time = self.poison()
                 service_invert = 100 - service_time
+                #print(service_invert)
                 Truck_Data = Truck(Battery= service_invert,Arrival_Time=time,total_time=0,total_wait_Time=0)   
             #Append the data to the list
             self.trucks.append(Truck_Data)   
@@ -76,20 +77,20 @@ class Prepare():
 
     def poison(self):
         # Given parameters
-        lambda_rate = 100 / 60  # arrival rate in students per minute
-        mu_rate = 50 / 60  # service rate in students per minute
+        lambda_rate = 60 / 40  # arrival rate in students per minute
+        mu_rate = 60 / 50  # service rate in students per minute
         # Generate inter-arrival times for the students (Poisson process)
         arrival_time = np.random.exponential(1/lambda_rate, 1)
         # Generate service times for the students (exponential distribution)
-        service_times = np.random.exponential(1/mu_rate, 1)
-        return 1,60
+        service_times = np.random.exponential(1/mu_rate,)
+        return 30,60
         #return arrival_time[0],service_times[0]
     
 
 #-------------------------------------------------------------------------------------------
 class CustomerGenerator(sim.Component):
     def __init__(self,waiting_room,env,clerks,wait_times,time_before_service,shedual):
-        super().__init__()
+        super().__init__(name="Generator")
         self.waiting_room = waiting_room
         self.env = env
         self.clerks = clerks
@@ -97,10 +98,13 @@ class CustomerGenerator(sim.Component):
         self.wait_times = wait_times
         self.time_before_service = time_before_service
         self.shedual = shedual
+        self.mode.monitor(False)
+        self.status.monitor(False)
 
     def process(self):
         previous_arrival = 0
-        while True:            
+        while True:     
+            #print("Length in code",len(self.shedual)) 
             #Check if there ia an truck left in the list
             if len(self.shedual) > 0:
                 #Get the next truck out of the list
@@ -110,8 +114,9 @@ class CustomerGenerator(sim.Component):
                 #Break when there are no more trucks to create
                 break
             #Create a truck object
-            cust =Customer(waiting_room= self.waiting_room,env=self.env,stations=self.clerks,wait_times = self.wait_times, time_before_service = self.time_before_service,battery_charge=truck.Battery)
-            cust.creation_time = self.env.now()
+            #print("Generate")
+            Customer(creation_time=self.env.now(),waiting_room= self.waiting_room,env=self.env,stations=self.clerks,wait_times = self.wait_times, time_before_service = self.time_before_service,battery_charge=truck.Battery)
+            
             #Hold the simmulation until the next truck is sheduald
             self.hold(truck.Arrival_Time - previous_arrival)
             #Set the previous time
@@ -120,7 +125,7 @@ class CustomerGenerator(sim.Component):
 
 class Charging_Station(sim.Component):
     def __init__(self,waiting_room,env,power_supply,max_power_delivery):
-        super().__init__()
+        super().__init__(name="Station")
         random.seed(time.time())
         self.waiting_room = waiting_room
         self.vehicle = 0
@@ -131,10 +136,13 @@ class Charging_Station(sim.Component):
         #Append the power consumption to the consumtion list
         self.power_supply.power_used_list.append(self.power_consumption)
         self.power_consumption.Max_Power_Reqeust = self.max_power_delivery
+        self.mode.monitor(False)
+        self.status.monitor(False)
 
     def process(self):
         while True:
             #Continu looping until a vehicle shows up in the waiting line
+            #print("Check waiting room")
             while len(self.waiting_room) == 0:
                 self.passivate()
             self.vehicle = self.waiting_room.pop()
@@ -144,6 +152,7 @@ class Charging_Station(sim.Component):
     def charge_car(self):
         loop = 0
         add_Charge = 0
+        #print("Append to time")
         self.vehicle.wait_times.append(self.env.now() - self.vehicle.creation_time)
         
         while self.vehicle.battery_charge < 100:
@@ -157,7 +166,7 @@ class Charging_Station(sim.Component):
                 #add_Charge = limit(0,self.max_power_delivery, 100 - limit(0,self.vehicle.battery_charge,)
             else:
                 add_Charge = self.power_consumption.Max_Power_Consumption
-            print("add_Charge",add_Charge)
+            #print("add_Charge",add_Charge)
             #Note to the power supply much power is being used from it
             self.power_consumption.Power_Consumption = add_Charge            
             #Hold the simulation for 1 minute
@@ -177,23 +186,27 @@ class Charging_Station(sim.Component):
        
 
 class Customer(sim.Component):
-    def __init__(self,waiting_room,env,stations,wait_times,time_before_service,battery_charge):
-        super().__init__()
+    def __init__(self,waiting_room,env,stations,wait_times,time_before_service,battery_charge,creation_time):
+        super().__init__(name="Truck")
         self.waiting_room = waiting_room
         self.env = env
         self.stations = stations
         self.battery_charge = battery_charge
-        self.creation_time = 0
+        self.creation_time = creation_time
         self.wait_times = wait_times
         self.time_before_service = time_before_service
+        self.mode.monitor(False)
+        self.status.monitor(False)
 
     def process(self):        
         #Put the vehicle in the waiting room
+        
         self.enter(self.waiting_room)
         #print(len(self.waiting_room))
         #Check if there is a station that is passive
         for station in self.stations:
             if station.ispassive():
+                
                 station.activate()
                 break  # activate at most one clerk
         self.passivate()
@@ -201,7 +214,7 @@ class Customer(sim.Component):
 #This class resables the general power supply that the chraging stations are coupled to
 class Power_supply(sim.Component):
     def __init__(self,env,max_power_from_Grid):
-        super().__init__()
+        super().__init__(name="Supply")
         self.max_power_from_grid = max_power_from_Grid
         self.power_used_list = []
         self.distribution_rl = []
@@ -209,10 +222,13 @@ class Power_supply(sim.Component):
         self.env =  env
         self.strategy = 0
         self.max_reached = False
+        self.mode.monitor(False)
+        self.status.monitor(False)
 
     def process(self):
         #Calculate the amount of energy that is currently being used
         while True:
+            #print("Power_Process")
             total = 0
             #Select the charging strategy
             if self.strategy == 0:
@@ -230,6 +246,7 @@ class Power_supply(sim.Component):
                 #print(total)
             else:
                 pass
+        print("Process_Stop")
 
     def __distribute_power_simple(self):#This method resembles the simplest distribution (give max until it is out)
         #Loop through all the power cinsumers
@@ -278,53 +295,94 @@ class sim_manager():
         #Prepare the truck data
         self.shedual.prepare_data(spread_type=3)
         self.total_time = total_time
+        #Create varaibles for monitoring
+        self.wait_Times = []
+        self.time_before_service = []
+        #Setup the enviroment
+        self.env_Sim = sim.Environment(trace=False,random_seed="*",name= "Simmulation",do_reset= False, yieldless= True)
+        self.env_Sim.Monitor('.',stats_only= True)
+        #Create the power supply
+        self.Power_supply_o = Power_supply(env =self.env_Sim,max_power_from_Grid= 20000)
+        #Create the waiting room
+        self.waiting_room = sim.Queue(name="waitingline88",monitor= False)
+        self.waiting_room.length_of_stay.monitor(value=True)
+        self.waiting_room.length_of_stay.reset_monitors(stats_only=True)
+        #Create the charing stations
+        self.stations = [Charging_Station(waiting_room=self.waiting_room,env=self.env_Sim,power_supply=self.Power_supply_o,max_power_delivery=20) for _ in range(self.Charging_stations)]
+        #Create the EV generator
+        self.generator = CustomerGenerator(waiting_room= self.waiting_room,env=self.env_Sim,clerks=self.stations,wait_times = self.wait_Times,time_before_service=self.time_before_service,shedual= self.shedual.trucks )
+
     #This function runs the simmulation
     def run_sim(self):
-        #Create varaibles for monitoring
-        wait_Times = []
-        time_before_service = []
-        #Prepare the truck data
-
-        #Create the objects that make up the simmulation
-        env_Sim = sim.Environment(trace=False,)
-        env_Sim.Monitor('.',stats_only= True)
-        waiting_room = sim.Queue("waitingline88")
-        Power_supply_o = Power_supply(env =env_Sim,max_power_from_Grid= 200)
-        Power_supply_o.distribution_rl = [10,20,20]
-        Power_supply_o.strategy = 2
-        stations = [Charging_Station(waiting_room=waiting_room,env=env_Sim,power_supply=Power_supply_o,max_power_delivery=20) for _ in range(self.Charging_stations)]
-        generator = CustomerGenerator(waiting_room= waiting_room,env=env_Sim,clerks=stations,wait_times = wait_Times,time_before_service=time_before_service,shedual= self.shedual.trucks )
-
+        #Create random numbers for the max power supplys
+        #max_power = np.random.randint(20,size=3)
+        #print(max_power)
+        self.Power_supply_o.distribution_rl = [1,1,1]
+        #self.Power_supply_o.distribution_rl = [max_power[0],max_power[1],max_power[2]]
+        self.Power_supply_o.strategy = 2
         #Start the simmulation
-        env_Sim.run(till=self.total_time)
-        #Delete the objects from the memory
-        del(env_Sim)
-        del(waiting_room)
-        for station in stations:
-            del(station)
-        del(generator)
+        #print("Total_Time",self.env_Sim.now())
 
-
+        #print("all stations active")
+        #print("shedual_Length",len(self.shedual.trucks))
+        self.env_Sim.run(till=self.total_time)
+        #print(len(self.wait_Times))
+        #print("End_Sim",self.env_Sim.now())
         #Get the output of the simmulation
-        avg = sum(wait_Times)/len(wait_Times)
-        min_o = min(wait_Times)
-        max_o = max(wait_Times)
+        #if len(self.wait_Times) > 0: 
+        avg = sum(self.wait_Times)/len(self.wait_Times)
+        min_o = min(self.wait_Times)
+        max_o = max(self.wait_Times)
+        #else:
+         #   print("Niet goed")
+          #  avg = 0
+          #  min_o = 0
+           # max_o = 0
 
         return avg,int(min_o),int(max_o)
 
-    def reset_shedual(self):
+    def reset_shedual(self):#This method resets the complete simmulation to its starting position
+        self.env_Sim.reset_now(0)
+
+        #Clear all the objects from the memory
+        del(self.Power_supply_o)
+        self.stations.clear()
+        del(self.generator)
+
+        #Create the power supply
+        self.Power_supply_o = Power_supply(env =self.env_Sim,max_power_from_Grid= 20000)
+        #Create the charing stations
+        self.stations = [Charging_Station(waiting_room=self.waiting_room,env=self.env_Sim,power_supply=self.Power_supply_o,max_power_delivery=20) for _ in range(self.Charging_stations)]
+        #Create the EV generator
+        self.generator = CustomerGenerator(waiting_room= self.waiting_room,env=self.env_Sim,clerks=self.stations,wait_times = self.wait_Times,time_before_service=self.time_before_service,shedual= self.shedual.trucks )
+        #self.env_Sim.__init__(trace=False,random_seed="*",name= "Simmulation",do_reset= True, yieldless= True)
+
+#dsds
+        #self.Power_supply_o.
+        #self.generator.__init__(waiting_room= self.waiting_room,env=self.env_Sim,clerks=self.stations,wait_times = self.wait_Times,time_before_service=self.time_before_service,shedual= self.shedual.trucks)
+        print(len(self.waiting_room))
+        self.waiting_room.clear()
+        self.wait_Times.clear()
+        self.time_before_service.clear()
+
+        #print("Reset")
+        #Make sure all the charging stations are disabled
+
         self.shedual.prepare_data(spread_type= 3)
+        self.generator.shedual = self.shedual.trucks
+        #print("Length =",len(self.generator.shedual))
+        #print()
 
 count = 0 
-
-for i in range(1):
+sim_m = sim_manager(1,1400)
+for i in range(3000000):
     if count >1000:
         print("1000 passed")
         count = 0
     count += 1
-    sim_m = sim_manager(3,1400)
-    print(sim_m.run_sim())
 
+    print(sim_m.run_sim())
+    sim_m.reset_shedual()
 #-------------------------------------------------------------------------------------------
 #Create a truck enviroment that the model is going to perform in
 class TruckEnv(Env):
@@ -339,7 +397,7 @@ class TruckEnv(Env):
         #self.env_sim = env = sim.Environment(trace=False)    
 
     def step(self,action):           
-        print(action)
+        #print(action)
         wait_time = self.sim_env.run_sim(action)
         
         done = True         
@@ -368,7 +426,7 @@ class TruckEnv(Env):
         for i in schedule:
             battery.append(i.Battery)
             arriaval_time.append(i.Arrival_Time)
-        print(arriaval_time)
+        #print(arriaval_time)
         battery_np = np.array(battery)
         arriaval_time_np = np.array(arriaval_time)   
         #Create a 
