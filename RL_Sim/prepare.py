@@ -1,17 +1,15 @@
 import random
 import salabim as sim
 import time
-import pickle
 import scipy.stats as stats
-
+from Elaad_distribution import calculate_distribution_params
 from data import Truck
+import pickle
 
-# Local path where gamma distribution is located temporary solution
-#adjust for know. Otherwise add the code?
-file_path = '/home/dofurst/Elaad/params_gamma.pkl'
+#PICKLEEEE
+with open('params_gamma.pkl', 'rb') as f:
+    params_gamma = pickle.load(f)
 
-with open(file_path, 'rb') as file:
-    params_gamma = pickle.load(file)
 
 class Prepare:
     '''Class that prepares a car arrival set'''
