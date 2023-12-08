@@ -1,8 +1,17 @@
 import random
 import salabim as sim
 import time
+import pickle
+import scipy.stats as stats
 
 from data import Truck
+
+# Local path where gamma distribution is located temporary solution
+#adjust for know. Otherwise add the code?
+file_path = '/home/dofurst/Elaad/params_gamma.pkl'
+
+with open(file_path, 'rb') as file:
+    params_gamma = pickle.load(file)
 
 class Prepare:
     '''Class that prepares a car arrival set'''
@@ -46,6 +55,17 @@ class Prepare:
                     arrival_time=time,
                     total_time=0,
                     total_wait_time=0,
+                )
+            elif spread_type == 4:
+                arrival = stats.gamma(*params_gamma).rvs() # Generate arrival time using the Gamma distribution
+                service_time = self.service_times.sample()
+                self.avg_wait_time.append(service_time)
+                service_invert = 100.0 - service_time
+                truck_data = Truck(
+                    battery=service_invert,
+                    arrival_time=time,
+                    total_time=0,
+                    total_wait_time=0,         
                 )
             # Append the data to the list
             self.trucks.append(truck_data)
