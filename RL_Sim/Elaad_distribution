@@ -77,6 +77,8 @@ def calculate_distribution_params(df):
 
 params_gamma, params_expon, df1_sorted = calculate_distribution_params(df1)
 
+print("Gamma distribution parameters:", params_gamma)
+
 #save params_gamma LOOK! I AM A PICKLE
 with open('params_gamma.pkl', 'wb') as f:
     pickle.dump(params_gamma, f)
@@ -91,8 +93,8 @@ x_expon = np.linspace(start=0, stop=df1_sorted['TimeDiff'].max(), num=10000)
 ##sns.histplot(df1_sorted['TimeDiff'], bins=bins, kde=False, stat='density', label='Empirical Data', color='#FBD5EC')
 
 # Plot the PDF of the fitted gamma distribution
-#pdf_gamma = stats.gamma.pdf(x_gamma, *params_gamma)
-#plt.plot(x_gamma, pdf_gamma, label='Fitted Gamma Distribution', color='#B9D531')
+pdf_gamma = stats.gamma.pdf(x_gamma, *params_gamma)
+plt.plot(x_gamma, pdf_gamma, label='Fitted Gamma Distribution', color='#B9D531')
 
 # Plot the PDF of the fitted exponential distribution
 #pdf_expon = stats.expon.pdf(x_expon, *params_expon)
@@ -105,4 +107,4 @@ x_expon = np.linspace(start=0, stop=df1_sorted['TimeDiff'].max(), num=10000)
 #plt.title('Average Daily Frequency of Time Differences Between Arrivals with Fitted Distributions')
 #plt.xlim(0, df1_sorted['TimeDiff'].quantile(0.95))
 #plt.legend()
-#plt.show()
+plt.show()
