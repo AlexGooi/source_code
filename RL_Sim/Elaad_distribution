@@ -71,10 +71,9 @@ def calculate_distribution_params(df):
     return params_gamma, params_expon, df_sorted
 
 # Plotting for weekdays and weekends
-plot_average_distribution(average_hourly_arrivals_weekdays, average_hourly_departures_weekdays, 'Weekdays', colors=['#B9D531', '#EC008C'])
-plot_average_distribution(average_hourly_arrivals_weekends, average_hourly_departures_weekends, 'Weekends', colors=['#B9D531', '#EC008C'])
-
-plt.show()
+#plot_average_distribution(average_hourly_arrivals_weekdays, average_hourly_departures_weekdays, 'Weekdays', colors=['#B9D531', '#EC008C'])
+#plot_average_distribution(average_hourly_arrivals_weekends, average_hourly_departures_weekends, 'Weekends', colors=['#B9D531', '#EC008C'])
+#plt.show()
 
 params_gamma, params_expon, df1_sorted = calculate_distribution_params(df1)
 
@@ -88,22 +87,22 @@ x_expon = np.linspace(start=0, stop=df1_sorted['TimeDiff'].max(), num=10000)
 
 
 # Plot the histogram of the empirical data
-plt.figure(figsize=(15, 6))
+#plt.figure(figsize=(15, 6))
 ##sns.histplot(df1_sorted['TimeDiff'], bins=bins, kde=False, stat='density', label='Empirical Data', color='#FBD5EC')
 
 # Plot the PDF of the fitted gamma distribution
-pdf_gamma = stats.gamma.pdf(x_gamma, *params_gamma)
-plt.plot(x_gamma, pdf_gamma, label='Fitted Gamma Distribution', color='#B9D531')
+#pdf_gamma = stats.gamma.pdf(x_gamma, *params_gamma)
+#plt.plot(x_gamma, pdf_gamma, label='Fitted Gamma Distribution', color='#B9D531')
 
 # Plot the PDF of the fitted exponential distribution
-pdf_expon = stats.expon.pdf(x_expon, *params_expon)
-plt.plot(x_expon, pdf_expon, label='Fitted Exponential Distribution', color='#EC008C')
+#pdf_expon = stats.expon.pdf(x_expon, *params_expon)
+#plt.plot(x_expon, pdf_expon, label='Fitted Exponential Distribution', color='#EC008C')
 
 
 # Finalize the plot (same as before)
-plt.xlabel('Time Difference Between Arrivals (Minutes)')
-plt.ylabel('Density')
-plt.title('Average Daily Frequency of Time Differences Between Arrivals with Fitted Distributions')
-plt.xlim(0, df1_sorted['TimeDiff'].quantile(0.95))
-plt.legend()
-plt.show()
+#plt.xlabel('Time Difference Between Arrivals (Minutes)')
+#plt.ylabel('Density')
+#plt.title('Average Daily Frequency of Time Differences Between Arrivals with Fitted Distributions')
+#plt.xlim(0, df1_sorted['TimeDiff'].quantile(0.95))
+#plt.legend()
+#plt.show()
