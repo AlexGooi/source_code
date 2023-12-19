@@ -11,3 +11,5 @@ if __name__ == "__main__":
         while done == False:
            done,temp = man.rl_Run(array)
         print(man.rl_reset())
+
+        #test
